@@ -52,10 +52,8 @@ public abstract class TabSwitcherDecorator extends AbstractViewHolderAdapter {
      *         {@link ViewGroup} or null, if no parent view is available
      * @param viewType
      *         The view type of the tab, which should be visualized, as an {@link Integer} value
-     * @return The view, which has been inflated, as an instance of the class {@link View}. The view
-     * may not be null
+     * @return The view, which has been inflated, as an instance of the class {@link View}.
      */
-    @NonNull
     public abstract View onInflateView(@NonNull final LayoutInflater inflater,
                                        @Nullable final ViewGroup parent, final int viewType);
 
@@ -165,7 +163,11 @@ public abstract class TabSwitcherDecorator extends AbstractViewHolderAdapter {
                                   @Nullable final ViewGroup parent, @NonNull final Tab tab,
                                   final int index) {
         int viewType = getViewType(tab, index);
-        return onInflateView(inflater, parent, viewType);
+        View view = onInflateView(inflater, parent, viewType);
+        if (view == null) {
+            return new View(inflater.getContext());
+        }
+        return view;
     }
 
     /**

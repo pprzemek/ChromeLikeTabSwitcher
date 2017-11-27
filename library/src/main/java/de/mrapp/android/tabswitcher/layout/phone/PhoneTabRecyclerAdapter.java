@@ -187,7 +187,7 @@ public class PhoneTabRecyclerAdapter extends AbstractTabRecyclerAdapter
      * Adapts the log level.
      */
     private void adaptLogLevel() {
-        dataBinder.setLogLevel(getModel().getLogLevel());
+        dataBinder.setLogLevel(getModel().getLogLevel() == null ? LogLevel.OFF : getModel().getLogLevel());
     }
 
     /**

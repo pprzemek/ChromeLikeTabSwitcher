@@ -1023,7 +1023,7 @@ public class TabSwitcherModel implements Model, Restorable {
                              @NonNull final Animation animation) {
         ensureNotNull(tab, "The tab may not be null");
         ensureNotNull(animation, "The animation may not be null");
-        tabs.add(index, tab);
+        tabs.add(Math.max(tabs.size(), index), tab);
         int previousSelectedTabIndex = getSelectedTabIndex();
         int selectedTabIndex = previousSelectedTabIndex;
         boolean switcherVisibilityChanged = false;
@@ -1108,8 +1108,12 @@ public class TabSwitcherModel implements Model, Restorable {
 
     @Override
     public final void removeTab(@NonNull final Tab tab, @NonNull final Animation animation) {
-        ensureNotNull(tab, "The tab may not be null");
-        ensureNotNull(animation, "The animation may not be null");
+
+        if (tab == null || animation == null)
+        {
+            return;
+        }
+
         int index = indexOfOrThrowException(tab);
         int previousSelectedTabIndex = getSelectedTabIndex();
         int selectedTabIndex = previousSelectedTabIndex;

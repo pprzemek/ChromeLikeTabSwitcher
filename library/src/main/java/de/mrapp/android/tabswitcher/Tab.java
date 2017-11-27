@@ -45,6 +45,8 @@ import static de.mrapp.android.util.Condition.ensureNotNull;
  */
 public class Tab implements Parcelable {
 
+    private PreviewCallback preview;
+
     /**
      * A creator, which allows to create instances of the class {@link Tab} from parcels.
      */
@@ -61,6 +63,21 @@ public class Tab implements Parcelable {
         }
 
     };
+
+    public interface PreviewCallback
+    {
+        Bitmap capture();
+    }
+
+    public PreviewCallback getPreview()
+    {
+        return preview;
+    }
+
+    public void setPreview(PreviewCallback preview)
+    {
+        this.preview = preview;
+    }
 
     /**
      * Defines the interface, a class, which should be notified, when a tab's properties have been

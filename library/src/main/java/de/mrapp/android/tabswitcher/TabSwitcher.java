@@ -286,7 +286,10 @@ public class TabSwitcher extends FrameLayout implements TabSwitcherLayout, Model
                         public void onGlobalLayout() {
                             ViewUtil.removeOnGlobalLayoutListener(
                                     tabContainer.getViewTreeObserver(), this);
-                            TabSwitcher.this.layout.onGlobalLayout();
+                            if (TabSwitcher.this.layout != null)
+                            {
+                                TabSwitcher.this.layout.onGlobalLayout();
+                            }
                         }
 
                     });
@@ -632,10 +635,10 @@ public class TabSwitcher extends FrameLayout implements TabSwitcherLayout, Model
                     notifyOnTabAdded(index, tab, animation);
                 }
 
-                if (previousSelectedTabIndex != selectedTabIndex) {
-                    notifyOnSelectionChanged(selectedTabIndex,
-                            selectedTabIndex != -1 ? getTab(selectedTabIndex) : null);
-                }
+//                if (previousSelectedTabIndex != selectedTabIndex) {
+//                    notifyOnSelectionChanged(selectedTabIndex,
+//                            selectedTabIndex != -1 ? getTab(selectedTabIndex) : null);
+//                }
             }
 
             @Override
@@ -644,10 +647,10 @@ public class TabSwitcher extends FrameLayout implements TabSwitcherLayout, Model
                                      @NonNull final Animation animation) {
                 notifyOnTabRemoved(index, tab, animation);
 
-                if (previousSelectedTabIndex != selectedTabIndex) {
-                    notifyOnSelectionChanged(selectedTabIndex,
-                            selectedTabIndex != -1 ? getTab(selectedTabIndex) : null);
-                }
+//                if (previousSelectedTabIndex != selectedTabIndex) {
+//                    notifyOnSelectionChanged(selectedTabIndex,
+//                            selectedTabIndex != -1 ? getTab(selectedTabIndex) : null);
+//                }
             }
 
             @Override
@@ -1363,6 +1366,9 @@ public class TabSwitcher extends FrameLayout implements TabSwitcherLayout, Model
 
     @Override
     public final void setPadding(final int left, final int top, final int right, final int bottom) {
+        if (model == null) {
+            return;
+        }
         model.setPadding(left, top, right, bottom);
     }
 
@@ -1640,6 +1646,14 @@ public class TabSwitcher extends FrameLayout implements TabSwitcherLayout, Model
         TabSwitcherState savedState = new TabSwitcherState(superState);
         savedState.layoutPolicy = layoutPolicy;
         savedState.modelState = new Bundle();
+
+        if (layout == null) {
+            return savedState;
+        }
+        if (model == null || getCount() == 0) {
+            return savedState;
+        }
+
         Pair<Integer, Float> pair = layout.detachLayout(true);
 
         if (pair != null) {

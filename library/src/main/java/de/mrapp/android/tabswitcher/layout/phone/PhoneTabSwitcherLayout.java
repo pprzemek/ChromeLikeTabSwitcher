@@ -3108,6 +3108,11 @@ public class PhoneTabSwitcherLayout extends AbstractTabSwitcherLayout
     @Override
     protected final float calculateSuccessorPosition(@NonNull final AbstractItem item,
                                                      @NonNull final AbstractItem predecessor) {
+
+        if (predecessor == null || item == null) {
+            return 0;
+        }
+
         float predecessorPosition = predecessor.getTag().getPosition();
         float maxTabSpacing = calculateMaxTabSpacing(item);
         return calculateSuccessorPosition(predecessorPosition, maxTabSpacing);
@@ -3252,12 +3257,11 @@ public class PhoneTabSwitcherLayout extends AbstractTabSwitcherLayout
     @Override
     public final void onAllTabsRemoved(@NonNull final Tab[] tabs,
                                        @NonNull final Animation animation) {
-        ensureTrue(animation instanceof SwipeAnimation,
-                animation.getClass().getSimpleName() + " not supported for removing tabs ");
+
         getLogger().logInfo(getClass(),
                 "Removed all tabs using a " + animation.getClass().getSimpleName());
 
-        if (!getModel().isSwitcherShown()) {
+        if (!getModel().isSwitcherShown() || !(animation instanceof SwipeAnimation)) {
             tabViewRecycler.removeAll();
             toolbar.setAlpha(getModel().areToolbarsShown() ? 1 : 0);
         } else {

@@ -93,6 +93,12 @@ public class PreviewDataBinder extends AbstractDataBinder<Bitmap, Tab, ImageView
     @Override
     protected final Bitmap doInBackground(@NonNull final Tab key,
                                           @NonNull final TabItem... params) {
+
+        if (key.getPreview() != null)
+        {
+            return key.getPreview().capture();
+        }
+
         TabItem tabItem = params[0];
         PhoneTabViewHolder viewHolder = (PhoneTabViewHolder) tabItem.getViewHolder();
         View content = viewHolder.content;

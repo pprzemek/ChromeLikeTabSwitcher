@@ -256,8 +256,11 @@ public class PhoneArithmetics extends AbstractArithmetics {
     @Override
     public final void setPosition(@NonNull final Axis axis, @NonNull final AbstractItem item,
                                   final float position) {
-        ensureNotNull(axis, "The axis may not be null");
-        ensureNotNull(item, "The item may not be null");
+
+        if (item == null || axis == null) {
+            return;
+        }
+
         View view = item.getView();
 
         if (getOrientationInvariantAxis(axis) == Axis.DRAGGING_AXIS) {

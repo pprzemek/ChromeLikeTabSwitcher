@@ -1148,7 +1148,7 @@ public abstract class AbstractTabSwitcherLayout
         this.touchEventDispatcher = touchEventDispatcher;
         Resources resources = tabSwitcher.getResources();
         this.stackedTabSpacing = resources.getDimensionPixelSize(R.dimen.stacked_tab_spacing);
-        this.logger = new Logger(model.getLogLevel());
+        this.logger = new Logger(model.getLogLevel() == null ? LogLevel.OFF : model.getLogLevel());
         this.callback = null;
         this.runningAnimations = 0;
         this.flingAnimation = null;
