@@ -1645,7 +1645,6 @@ public class TabSwitcher extends FrameLayout implements TabSwitcherLayout, Model
         Parcelable superState = super.onSaveInstanceState();
         TabSwitcherState savedState = new TabSwitcherState(superState);
         savedState.layoutPolicy = layoutPolicy;
-        savedState.modelState = new Bundle();
 
         if (layout == null) {
             return savedState;
@@ -1653,6 +1652,8 @@ public class TabSwitcher extends FrameLayout implements TabSwitcherLayout, Model
         if (model == null || getCount() == 0) {
             return savedState;
         }
+
+        savedState.modelState = new Bundle();
 
         Pair<Integer, Float> pair = layout.detachLayout(true);
 
